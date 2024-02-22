@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Second-hand Price Calculator</title>
+    <!-- Include Material Components for the Web styles -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@material/textfield/dist/mdc.textfield.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@material/button/dist/mdc.button.min.css">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 20px;
+        }
+
+        .calculator-form {
+            max-width: 400px;
+            margin: auto;
+        }
+
+        .result-section {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1 style="text-align: center;">Second-hand Price Calculator</h1>
+
+    <div class="calculator-form mdc-typography">
+
+        <div class="mdc-text-field">
+            <input type="number" id="originalPrice" class="mdc-text-field__input" placeholder="Original Price (INR)" required>
+            <label class="mdc-floating-label" for="originalPrice">Original Price</label>
+        </div>
+
+        <div class="mdc-text-field">
+            <input type="number" id="yearsOfUsage" class="mdc-text-field__input" placeholder="Years of Usage" required>
+            <label class="mdc-floating-label" for="yearsOfUsage">Years of Usage</label>
+        </div>
+
+        <div class="mdc-text-field">
+            <input type="number" id="conditionAdjustment" class="mdc-text-field__input" placeholder="Condition (out of 100)" required>
+            <label class="mdc-floating-label" for="conditionAdjustment">Condition (out of 100)</label>
+        </div>
+
+        <div class="mdc-text-field">
+            <input type="number" id="demandAdjustment" class="mdc-text-field__input" placeholder="Demand (out of 100)" required>
+            <label class="mdc-floating-label" for="demandAdjustment">Demand (out of 100)</label>
+        </div>
+
+        <button class="mdc-button mdc-button--raised" onclick="calculatePrice()">Calculate Second-hand Price</button>
+
+    </div>
+
+    <div class="result-section mdc-typography">
+
+        <h2>Result:</h2>
+        <p id="result">-</p>
+
+        <h2>Calculation Formula:</h2>
+        <p id="formula">-</p>
+
+    </div>
+
+    <!-- Include Material Components for the Web scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/@material/top-app-bar/dist/mdc.top-app-bar.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@material/textfield/dist/mdc.textfield.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@material/button/dist/mdc.button.min.js"></script>
+    <script>
+        // Initialize Material Components for the Web
+        mdc.textField.MDCTextField.attachTo(document.querySelector('.mdc-text-field'));
+        mdc.button.MDCButton.attachTo(document.querySelector('.mdc-button'));
+
+        function calculatePrice() {
+            const originalPrice = parseFloat(document.getElementById('originalPrice').value);
+            const yearsOfUsage = parseInt(document.getElementById('yearsOfUsage').value);
+            const condition = parseFloat(document.getElementById('conditionAdjustment').value);
+            const demand = parseFloat(document.getElementById('demandAdjustment').value);
+
+            const baseCondition = 100; // Set your base condition value
+            const baseDemand = 100; // Set your base demand value
+
+            // Calculate percentage adjustments
+            const conditionAdjustment = (condition - baseCondition) / baseCondition * 100;
+            const demandAdjustment = (demand - baseDemand) / baseDemand * 100;
+
+            const depreciationFactor = yearsOfUsage * 0.15; // Assuming a 15% annual depreciation rate
+            const conditionDeduction = (originalPrice * (conditionAdjustment / 100));
+            const demandAdjustmentValue = (originalPrice * (demandAdjustment / 100));
+
+            const secondHandPrice = originalPrice * (1 - depreciationFactor) - conditionDeduction + demandAdjustmentValue;
+
+            // Displaying the result
+            document.getElementById('result').textContent = `Estimated Second-hand Price: INR ${secondHandPrice.toFixed(2)}`;
+
+            // Displaying the formula breakdown
+            document.getElementById('formula').innerHTML = `
+                Formula Breakdown:<br>
+                Original Price * (1 - Depreciation Factor) - Condition Deduction + Demand Adjustment<br>
+                = ${originalPrice} * (1 - ${depreciationFactor}) - ${conditionDeduction} + ${demandAdjustmentValue.toFixed(2)}<br>
+                = ${secondHandPrice.toFixed(2)}
+            `;
+        }
+    </script>
+
+</body>
+</html>
