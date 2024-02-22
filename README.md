@@ -1,6 +1,8 @@
 # SecondPriceCalc
 Estimate the second-hand price of your items with SecondPriceCalc. This user-friendly web application considers factors like original price, years of usage, condition, and market demand adjustments to provide a calculated estimate. Visualize the breakdown of the formula and make informed decisions when selling or buying used items.
 
+[Demo](https://rawcdn.githack.com/sohamdalwadi/SecondPriceCalc/cfefe6459cd68c5cc5b13bcda9c370a849fc7264/index.html)
+
 ## Features
 
 - User-friendly Material Design interface.
